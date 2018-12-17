@@ -14,122 +14,28 @@ allowing to add third party membership schemes. WSO2 products that are based on 
    ```
       kubernetes-membership-scheme-1.0.0.jar
    ```
-   
-The Kubernetes membership scheme supports findind the pod IPs in two ways:
 
-   1. Using the Kuberntes API
-   2. Using DNS
-   
-#### Using the Kuberntes API to Resolve Pod IPs
-
-The membership scheme queries the Kubernetes API for the relevant pod IP addresses. To configure the membership scheme to use the Kubernetes API, do the following configuration changes: 
-
-1. Update `<carbon_home>/repository/conf/axis2/axis2.xml` with the following configuration: Please note that you need
- to change localMemberHost value with pod's local ip address [refer](https://github.com/wso2/kubernetes-apim/blob/2.1.0/base/analytics/init_carbon.sh#L24). 
+3. Update `axis2.xml` with the following configuration:
 
    ```xml
-   <clustering class="org.wso2.carbon.core.clustering.hazelcast.HazelcastClusteringAgent"
-                   enable="true">
-       
-           <parameter name="AvoidInitiation">true</parameter>
-   
-           <parameter name="membershipScheme">kubernetes</parameter>
-           <parameter name="domain">pub.store.am.wso2.domain</parameter>
-   
-           <parameter name="mcastPort">45564</parameter>
-           <parameter name="mcastTTL">100</parameter>
-           <parameter name="mcastTimeout">60</parameter>
-   
-           <parameter name="localMemberHost">172.17.0.2</parameter>
-           <parameter name="localMemberPort">4000</parameter>
-   
-           <!--
-           Properties specific to this member
-           -->
-           <parameter name="properties">
-               <property name="backendServerURL" value="https://${hostName}:${httpsPort}/services/"/>
-               <property name="mgtConsoleURL" value="https://${hostName}:${httpsPort}/"/>
-               <property name="subDomain" value="worker"/>
-           </parameter>
-   
-           <parameter name="membershipSchemeClassName">org.wso2.carbon.membership.scheme.kubernetes.KubernetesMembershipScheme</parameter>
-           <parameter name="KUBERNETES_NAMESPACE">wso2-demo</parameter>
-           <parameter name="KUBERNETES_SERVICES">store,publisher</parameter>
-           <parameter name="KUBERNETES_MASTER_SKIP_SSL_VERIFICATION">true</parameter>
-           <parameter name="USE_DNS">false</parameter>
-   
-           <groupManagement enable="false">
-               <applicationDomain name="wso2.apim.domain"
-                                  description="APIM group"
-                                  agent="org.wso2.carbon.core.clustering.hazelcast.HazelcastGroupManagementAgent"
-                                  subDomain="worker"
-                                  port="2222"/>
-           </groupManagement>
-       </clustering>
+   <clustering class="org.wso2.carbon.core.clustering.hazelcast.HazelcastClusteringAgent" enable="true">
+      <parameter name="membershipSchemeClassName">org.wso2.carbon.membership.scheme.kubernetes.KubernetesMembershipScheme</parameter>
+      <parameter name="membershipScheme">kubernetes</parameter>
+      <!-- Kubernetes master API endpoint -->
+      <parameter name="KUBERNETES_MASTER">http://172.17.8.101:8080</parameter>
+      <!-- Kubernetes service(s) the carbon server belongs to, use comma separated values for specifying
+           multiple values. If multiple services defined, carbon server will connect to all the members
+           in all the services via Hazelcast -->
+      <parameter name="KUBERNETES_SERVICES">wso2esb</parameter>
+      <!-- Kubernetes namespace used -->
+      <parameter name="KUBERNETES_NAMESPACE">default</parameter>
+   </clustering>
+```
 
-#### Clustering Parameters required to communicate with the Kuberntes API
-
-1. `KUBERNETES_API_SERVER` - Kubernetes API endpoint, **ex:** `http://172.17.8.101:8080`
-    - Alternatively an https endpoint can be set through:
-        2. `KUBERNETES_SERVICE_HOST` - Kubernetes API host name or ip, **ex:** `kuberneteshostname`
-        3. `KUBERNETES_SERVICE_PORT_HTTPS` - Kubernetes API https listening port, **ex:** `443`. Must be an Integer value.
-2. `KUBERNETES_API_SERVER_TOKEN` - Kubernetes Master token for authentication (optional), **ex:** `yourkubernetestoken`.
-    - Alternatively basic authentication can be set through:
-        1. `KUBERNETES_API_SERVER_USERNAME` - Kubernetes Master username (optional), **ex:** `admin`
-        2. `KUBERNETES_API_SERVER_PASSWORD` - Kubernetes Master password (optional), **ex:** `admin`
-3. `KUBERNETES_NAMESPACE` - Kubernetes Namespace in which the pods are deployed, **ex:** `default`
-4. `KUBERNETES_SERVICES` - Kubernetes Services that belong in the cluster, **ex:** `wso2am-gateway`
-5. `KUBERNETES_MASTER_SKIP_SSL_VERIFICATION` - Skip SSL certificate verification of the Kubernetes API (development option), **ex:** `true`
-6. `USE_DNS` - Configure the membership schme to either use DNS (default) or use the Kuberntes API for pod ip resolution, **ex:** `false`. To use the Kubernetes API, this value **must** be set to `false`.
-
-#### Using DNS Lookups to Resolve Pod IPs
-
-In this method, membership scheme performs DNS lookups to resolve pod IP addresses. This method will be used by default. To configure the membership scheme to use DNS lookups, do the following configuration changes: 
-
-1. Download and copy the dependency library for DNS lookups [dnsjava-2.1.8.jar](http://central.maven.org/maven2/dnsjava/dnsjava/2.1.8/dnsjava-2.1.8.jar) to <carbon_home>/repository/components/lib location.
-
-2. Update `<carbon_home>/repository/conf/axis2/axis2.xml` with the following configuration: Please note that you need
- to change localMemberHost value with pod's local ip address [refer](https://github.com/wso2/kubernetes-apim/blob/2.1.0/base/analytics/init_carbon.sh#L24). 
-
-   ```xml
-   <clustering class="org.wso2.carbon.core.clustering.hazelcast.HazelcastClusteringAgent"
-                   enable="true">
-   
-           <parameter name="AvoidInitiation">true</parameter>
-   
-           <parameter name="membershipScheme">kubernetes</parameter>
-           <parameter name="domain">pub.store.am.wso2.domain</parameter>
-   
-           <parameter name="mcastPort">45564</parameter>
-           <parameter name="mcastTTL">100</parameter>
-           <parameter name="mcastTimeout">60</parameter>
-   
-           <parameter name="localMemberHost">172.17.0.2</parameter>
-           <parameter name="localMemberPort">4000</parameter>
-   
-           <!--
-           Properties specific to this member
-           -->
-           <parameter name="properties">
-               <property name="backendServerURL" value="https://${hostName}:${httpsPort}/services/"/>
-               <property name="mgtConsoleURL" value="https://${hostName}:${httpsPort}/"/>
-               <property name="subDomain" value="worker"/>
-           </parameter>
-   
-           <parameter name="membershipSchemeClassName">org.wso2.carbon.membership.scheme.kubernetes.KubernetesMembershipScheme</parameter>
-           <parameter name="KUBERNETES_SERVICES">store,publisher</parameter>
-           <parameter name="KUBERNETES_NAMESPACE">wso2-demo</parameter>
-   
-           <groupManagement enable="false">
-               <applicationDomain name="wso2.apim.domain"
-                                  description="APIM group"
-                                  agent="org.wso2.carbon.core.clustering.hazelcast.HazelcastGroupManagementAgent"
-                                  subDomain="worker"
-                                  port="2222"/>
-           </groupManagement>
-       </clustering>
-
-#### Clustering Parameters required to perform DNS Lookups
-1. `KUBERNETES_SERVICES` - Kubernetes Services that belong in the cluster. Multiple services can be specified comma separated, **ex:** `wso2apim-manager-worker,wso2apim-worker`
-2. `KUBERNETES_NAMESPACE` - Kubernetes Namespace in which the pods are deployed, **ex:** `default`
-##### Note: The services which are used to for the DNS lookup should be 'headless' with no cluster IP. Please refer [Kuberntes DNS guide](https://github.com/kubernetes/kubernetes/tree/v1.0.6/cluster/addons/dns#a-records).
+### Clustering Parameters
+1. `KUBERNETES_MASTER` - Kubernetes API endpoint, **ex:** `http://172.17.8.101:8080`
+2. `KUBERNETES_MASTER_USERNAME` - Kubernetes Master username (optional), **ex:** `admin`
+3. `KUBERNETES_MASTER_PASSWORD` - Kubernetes Master password (optional), **ex:** `admin`
+4. `KUBERNETES_NAMESPACE` - Kubernetes Namespace in which the pods are deployed, **ex:** `default`
+5. `KUBERNETES_SERVICES` - Kubernetes Services that belong in the cluster, **ex:** `wso2am-gateway`
+6. `KUBERNETES_MASTER_SKIP_SSL_VERIFICATION ` - Skip SSL certificate verification of the Kubernetes API (development option), **ex:** `true`

@@ -39,3 +39,4 @@ hs_err_pid*
 
 # Mockserver logs
 mockserver*.log
+azureInfraestructure/resource-group/.terraform/plugins/linux_amd64/terraform-provider-azurerm_v1.20.0_x4

@@ -27,7 +27,7 @@
     <groupId>org.wso2.carbon.kubernetes.artifacts</groupId>
     <artifactId>wso2-kubernetes-artifacts</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>WSO2 Kubernetes Artifacts</name>
     <description>WSO2 Kubernetes Artifacts</description>
 
@@ -44,6 +44,46 @@
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <!--inherited>true</inherited-->
+                <version>2.5.3</version>
+                <configuration>
+                    <descriptor>package.xml</descriptor>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <!--runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-archive</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <configuration>
+                            <executable>ruby</executable>
+                            <workingDirectory>${validation.script.dir}</workingDirectory>
+                            <arguments>
+                                <argument>validate-yaml.rb</argument>
+                            </arguments>
+                        </configuration>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -129,10 +169,10 @@
     </profiles>
 
     <scm>
-        <url>https://github.com/wso2/kubernetes-common.git</url>
-        <developerConnection>scm:git:https://github.com/wso2/kubernetes-common.git</developerConnection>
-        <connection>scm:git:https://github.com/wso2/kubernetes-common.git</connection>
-        <tag>v1.0.1</tag>
+        <url>https://github.com/wso2/kubernetes-artifacts.git</url>
+        <developerConnection>scm:git:https://github.com/wso2/kubernetes-artifacts.git</developerConnection>
+        <connection>scm:git:https://github.com/wso2/kubernetes-artifacts.git</connection>
+        <tag>v1.0.0</tag>
     </scm>
 
     <repositories>
@@ -270,11 +310,6 @@
                 <artifactId>mockserver-netty</artifactId>
                 <version>${mockserver.version}</version>
             </dependency>
-            <dependency>
-                <groupId>dnsjava</groupId>
-                <artifactId>dnsjava</artifactId>
-                <version>${dnsjava.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -290,7 +325,6 @@
         <ppaas.version>4.1.5</ppaas.version>
         <mockserver.version>3.10.4</mockserver.version>
         <testng.version>6.9.9</testng.version>
-        <dnsjava.version>2.1.8</dnsjava.version>
         <project.scm.id>my-scm-server</project.scm.id>
     </properties>
 </project>

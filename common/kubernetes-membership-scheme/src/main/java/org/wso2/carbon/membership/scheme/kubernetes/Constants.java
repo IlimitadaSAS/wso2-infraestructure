@@ -24,7 +24,6 @@ public class Constants {
     public static final String PARAMETER_NAME_KUBERNETES_API_SERVER = "KUBERNETES_API_SERVER";
     public static final String PARAMETER_NAME_KUBERNETES_API_SERVER_USERNAME = "KUBERNETES_API_SERVER_USERNAME";
     public static final String PARAMETER_NAME_KUBERNETES_API_SERVER_PASSWORD = "KUBERNETES_API_SERVER_PASSWORD";
-    public static final String PARAMETER_NAME_KUBERNETES_API_SERVER_TOKEN = "KUBERNETES_API_SERVER_TOKEN";
     public static final String PARAMETER_NAME_KUBERNETES_NAMESPACE = "KUBERNETES_NAMESPACE";
     public static final String PARAMETER_NAME_KUBERNETES_SERVICES = "KUBERNETES_SERVICES";
     public static final String PARAMETER_NAME_KUBERNETES_MASTER_SKIP_SSL_VERIFICATION = "KUBERNETES_MASTER_SKIP_SSL_VERIFICATION";
@@ -32,6 +31,4 @@ public class Constants {
     public static final String KUBERNETES_SERVICE_PORT_HTTPS = "KUBERNETES_SERVICE_PORT_HTTPS";
     public static final String ENDPOINTS_API_CONTEXT = "/api/v1/namespaces/%s/endpoints/";
     public static final String PROTOCOL_HTTPS = "https";
-    public static final String DNS_LOOKUP_TIMEOUT = "DNS_LOOKUP_TIMEOUT";
-    public static final String USE_DNS = "USE_DNS";
 }

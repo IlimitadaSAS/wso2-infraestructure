@@ -60,10 +60,10 @@ bash $script_path/../common/wso2-shared-dbs/deploy.sh
 
 # deploy DB service and rc
 echo "Deploying ESB database Service..."
-kubectl create -f "mysql-esbdb-service.yaml"
+kubectl apply -f "mysql-esbdb-service.yaml"
 
 echo "Deploying ESB database Replication Controller..."
-kubectl create -f "mysql-esbdb-controller.yaml"
+kubectl apply -f "mysql-esbdb-controller.yaml"
 
 # wait till mysql is started
 # TODO: find a better way to do this

@@ -25,7 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Header;
-import org.mockserver.model.HttpRequest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.wso2.carbon.membership.scheme.kubernetes.Constants;
@@ -66,43 +65,12 @@ public class ReadinessProbeEndpointTestCases {
     }
 
     @Test
-    public void testEndpointAddressesOnlyWithAuthBasic() throws Exception {
-        // test Endpoint with Addresses Only
-        log.info("Executing test case with Addresses Only With auth basic");
-        registerAPI("/ReadinessProbeEndpointTestCases/addressOnly.json");
-        assertEquals(initializeMembershipScheme(AuthType.BASIC).size(), 2, "Endpoint with Addresses Only");
-    }
-
-    @Test
-    public void testEndpointAddressesOnlyWithAuthBearer() throws Exception {
-        // test Endpoint with Addresses Only
-        log.info("Executing test case with Addresses Only With auth bearer");
-        registerAPI("/ReadinessProbeEndpointTestCases/addressOnly.json");
-        assertEquals(initializeMembershipScheme(AuthType.BEARER).size(), 2, "Endpoint with Addresses Only");
-    }
-
-    @Test
     public void testEndpointNotReadyAddressesOnly() throws Exception {
         // test Endpoint with notReadyAddresses Only
         log.info("Executing test case with notReadyAddresses Only ");
         registerAPI("/ReadinessProbeEndpointTestCases/notReadyAddressOnly.json");
         assertEquals(initializeMembershipScheme().size(), 2, "Endpoint with notReadyAddresses Only");
-    }
 
-    @Test
-    public void testEndpointNotReadyAddressesOnlyWithAuthBasic() throws Exception {
-        // test Endpoint with notReadyAddresses Only
-        log.info("Executing test case with notReadyAddresses Only with auth basic");
-        registerAPI("/ReadinessProbeEndpointTestCases/notReadyAddressOnly.json");
-        assertEquals(initializeMembershipScheme(AuthType.BASIC).size(), 2, "Endpoint with notReadyAddresses Only");
-    }
-
-    @Test
-    public void testEndpointNotReadyAddressesOnlyWithAuthBearer() throws Exception {
-        // test Endpoint with notReadyAddresses Only
-        log.info("Executing test case with notReadyAddresses Only with auth bearer");
-        registerAPI("/ReadinessProbeEndpointTestCases/notReadyAddressOnly.json");
-        assertEquals(initializeMembershipScheme(AuthType.BEARER).size(), 2, "Endpoint with notReadyAddresses Only");
     }
 
     @Test
@@ -114,45 +82,15 @@ public class ReadinessProbeEndpointTestCases {
 
     }
 
-    @Test
-    public void testEndpointNotReadyAddressesAndAddressesWithAuthBasic() throws Exception {
-        // test Endpoint with NotReadyAddresses And Addresses
-        log.info("Executing test case NotReadyAddresses And Addresses with auth basic");
-        registerAPI("/ReadinessProbeEndpointTestCases/notReadyAddressAndAddress.json");
-        assertEquals(initializeMembershipScheme(AuthType.BASIC).size(), 2, "Endpoint with notReadyAddress And Address");
-
-    }
-
-    @Test
-    public void testEndpointNotReadyAddressesAndAddressesWithAuthBearer() throws Exception {
-        // test Endpoint with NotReadyAddresses And Addresses
-        log.info("Executing test case NotReadyAddresses And Addresses with auth bearer");
-        registerAPI("/ReadinessProbeEndpointTestCases/notReadyAddressAndAddress.json");
-        assertEquals(initializeMembershipScheme(AuthType.BEARER).size(), 2, "Endpoint with notReadyAddress And Address");
-
-    }
-
     private void registerAPI(String endpointJSONPath) throws IOException {
-        registerAPI(endpointJSONPath, AuthType.NONE);
-    }
-
-    private void registerAPI(String endpointJSONPath, AuthType authType) throws IOException {
         // Registering request and response with mock server
         String endpointJSON = IOUtils.toString(
                 this.getClass().getResourceAsStream(endpointJSONPath), "UTF-8");
-        HttpRequest mockRequest = request()
-                .withPath(String.format(Constants.ENDPOINTS_API_CONTEXT, namespace)
-                        + services)
-                .withMethod("GET");
-        if( authType == AuthType.BASIC ) {
-            mockRequest.withHeader("Authorization","Basic dXNlcm5hbWU6cGFzc3dvcmQ=");
-        } else if(authType == AuthType.BEARER) {
-            mockRequest.withHeader("Authorization","Bearer token");
-        }
-
         mockServer.when(
-                mockRequest
-
+                request()
+                        .withPath(String.format(Constants.ENDPOINTS_API_CONTEXT, namespace)
+                                + services)
+                        .withMethod("GET")
         ).respond(
                 response()
                         .withStatusCode(202)
@@ -164,10 +102,6 @@ public class ReadinessProbeEndpointTestCases {
     }
 
     private List<String> initializeMembershipScheme() throws Exception {
-        return initializeMembershipScheme(AuthType.NONE);
-    }
-
-    private List<String> initializeMembershipScheme(AuthType bearerAuth) throws Exception {
         //Initializing membership scheme
         Config primaryHazelcastConfig;
         HazelcastInstance primaryHazelcastInstance;
@@ -181,19 +115,6 @@ public class ReadinessProbeEndpointTestCases {
                         "http://localhost:" + MOCK_SERVER_PORT));
         parameters.put(Constants.PARAMETER_NAME_KUBERNETES_SERVICES,
                 new Parameter(Constants.PARAMETER_NAME_KUBERNETES_SERVICES, services));
-        parameters.put(Constants.USE_DNS, new Parameter(Constants.USE_DNS, "false"));
-
-        if(bearerAuth == AuthType.BASIC) {
-            parameters.put(Constants.PARAMETER_NAME_KUBERNETES_API_SERVER_USERNAME,
-                    new Parameter(Constants.PARAMETER_NAME_KUBERNETES_API_SERVER_USERNAME, "username"));
-            parameters.put(Constants.PARAMETER_NAME_KUBERNETES_API_SERVER_PASSWORD,
-                    new Parameter(Constants.PARAMETER_NAME_KUBERNETES_API_SERVER_USERNAME, "password"));
-        }
-
-        if(bearerAuth == AuthType.BEARER) {
-            parameters.put(Constants.PARAMETER_NAME_KUBERNETES_API_SERVER_TOKEN,
-                    new Parameter(Constants.PARAMETER_NAME_KUBERNETES_API_SERVER_TOKEN, "token"));
-        }
 
         messageBuffer = new ArrayList<>();
         primaryHazelcastConfig = new Config();
@@ -206,11 +127,5 @@ public class ReadinessProbeEndpointTestCases {
         return primaryHazelcastConfig.getNetworkConfig().getJoin().
                 getTcpIpConfig().getMembers();
 
-    }
-
-    private  enum AuthType {
-        BEARER,
-        BASIC,
-        NONE;
     }
 }
