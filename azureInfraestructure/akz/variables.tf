@@ -10,15 +10,15 @@ variable "ssh_public_key" {
 }
 
 variable "dns_prefix" {
-    default = "wso2test"
+    default = "wso2"
 }
 
 variable cluster_name {
-    default = "wso2test"
+    default = "wso2prod"
 }
 
 variable resource_group_name {
-    default = "azure-wso2test"
+    default = "azure-wso2prod"
 }
 
 variable location {
@@ -27,5 +27,17 @@ variable location {
 
 
 variable wso2AccountID {
-    default = ""
+    default = "wso2account"
+}
+
+variable acr_name {
+    default = "acrwso2prod"
+}
+
+variable tag_Environment {
+    default = "Production"
+}
+
+variable ip_name {
+    default = "wso2ip"
 }
