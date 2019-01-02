@@ -17,6 +17,7 @@ metadata:
   labels: 
     name: wso2esb-worker
   name: wso2esb-worker
+  namespace: develop-namespace
 spec: 
   type: NodePort
   ports:
@@ -43,4 +44,4 @@ spec:
       nodePort: 32094
   # label keys and values that must match in order to receive traffic for this service
   selector: 
-    name: wso2esb-worker
+    app: wso2esb-worker

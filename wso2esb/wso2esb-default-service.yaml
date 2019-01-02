@@ -17,8 +17,10 @@ metadata:
   labels:
     name: wso2esb-default
   name: wso2esb-default
+  namespace: develop-namespace
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerIP: 23.99.193.233
   sessionAffinity: ClientIP
   ports:
     # ports that this service should serve on
@@ -44,4 +46,4 @@ spec:
       nodePort: 32094
   # label keys and values that must match in order to receive traffic for this service
   selector:
-    name: wso2esb-default
+    app: wso2esb-default

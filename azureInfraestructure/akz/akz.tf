@@ -62,3 +62,15 @@ resource "azurerm_public_ip" "wso2ipstatic" {
     environment = "${var.tag_Environment}"
   }
 }
+
+resource "azurerm_public_ip" "wso2ipstatic-dev" {
+  name                         = "${var.ip_name_dev}"
+  location                     = "${azurerm_resource_group.wso2prod.location}"
+  resource_group_name          = "MC_${azurerm_resource_group.wso2prod.name}_${azurerm_kubernetes_cluster.akswso2prod.name}_${azurerm_resource_group.wso2prod.location}"
+  public_ip_address_allocation = "static"
+  domain_name_label = "wso2ilimitada-dev"
+
+  tags {
+    environment = "develop"
+  }
+}

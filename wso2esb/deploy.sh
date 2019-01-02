@@ -21,6 +21,7 @@ manager_port=32095
 worker_port=32093
 default_port=32093
 
+
 prgdir=$(dirname "$0")
 script_path=$(cd "$prgdir"; pwd)
 common_scripts_folder=$(cd "${script_path}/../common/scripts/"; pwd)
@@ -55,6 +56,12 @@ while getopts :dh FLAG; do
 done
 
 validateKubeCtlConfig
+
+# deploy DB service and rc
+echo "Create Namespace..."
+kubectl apply -f "ns.yaml"
+
+sleep 10
 
 bash $script_path/../common/wso2-shared-dbs/deploy.sh
 

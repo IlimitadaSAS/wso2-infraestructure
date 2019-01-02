@@ -17,6 +17,7 @@ metadata:
   labels:
     name: mysql-esb-db
   name: mysql-esb-db
+  namespace: develop-namespace
 spec:
   ports:
     # ports that this service should serve on
@@ -25,4 +26,4 @@ spec:
       port: 3306
   # label keys and values that must match in order to receive traffic for this service
   selector:
-    name: mysql-esb-db
+    app: mysql-esb-db

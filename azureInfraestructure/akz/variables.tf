@@ -41,3 +41,9 @@ variable tag_Environment {
 variable ip_name {
     default = "wso2ip"
 }
+
+variable ip_name_dev {
+    default = "wso2ipdev"
+}
+
+

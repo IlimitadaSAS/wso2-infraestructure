@@ -17,9 +17,9 @@ metadata:
   labels: 
     name: wso2esb-manager
   name: wso2esb-manager
+  namespace: develop-namespace
 spec: 
-  type: NodePort
-  sessionAffinity: ClientIP
+  type: LoadBalancer
   ports:
     # ports that this service should serve on
     - 
@@ -34,4 +34,4 @@ spec:
       nodePort: 32096
   # label keys and values that must match in order to receive traffic for this service
   selector: 
-    name: wso2esb-manager
+    app: wso2esb-manager

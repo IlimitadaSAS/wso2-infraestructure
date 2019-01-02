@@ -11,20 +11,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: mysql-govdb
+  namespace: develop-namespace
   labels:
-    name: mysql-govdb
+    app: mysql-govdb
 spec:
   replicas: 1
   selector:
-    name: mysql-govdb
+    matchLabels:
+      app: mysql-govdb
   template:
     metadata:
       labels:
-        name: mysql-govdb
+        app: mysql-govdb
     spec:
       containers:
       - name: mysql-govdb

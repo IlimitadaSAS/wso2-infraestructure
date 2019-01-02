@@ -57,3 +57,6 @@ authorization.RoleAssignmentsClient#Create:
  Message="The client 'c237cd52-6229-47e9-bea4-c2264113b0d8' with object id 'c237cd52-6229-47e9-bea4-c2264113b0d8' 
  does not have authorization to perform action 'Microsoft.Authorization/roleAssignments/write' 
  over scope '/subscriptions/c801f3bb-e4d2-452d-b66a-f1a8f7609504/resourceGroups/azure-wso2prod/providers/Microsoft.Authorization/roleAssignments/85fd80e4-f827-c0f8-1945-980954f9127a'."
+
+
+docker login --username 63f5bfeb-ba94-40a1-abb2-a1693e62b4b5 --password 7700821a-a678-4ff0-a248-04b7e6c1d461 acrwso2prod.azurecr.io

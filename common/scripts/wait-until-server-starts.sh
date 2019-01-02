@@ -23,14 +23,16 @@ source "${self_path}/base.sh"
 
 IFS=$'\n'
 kube_nodes=($(getKubeNodes))
-host=$(getKubeNodeIP "${kube_nodes[0]}")
+#host=$(getKubeNodeIP "${kube_nodes[0]}")
+host=wso2ilimitada-dev.centralus.cloudapp.azure.com
 product=${PWD##*/}
 profile=$1
-port=$2
+#port=$2
+port=32094
 
-echo "Waiting ${product} to launch on http://${host}:${port}"
+echo "Waiting ${product} to launch on https://${host}:${port}"
 sleep 15
-until $(curl --output /dev/null --silent --head --fail http://${host}:${port}); do
+until $(curl --output /dev/null --silent --head --fail https://${host}:${port}); do
     printf '.'
     sleep 3
 done

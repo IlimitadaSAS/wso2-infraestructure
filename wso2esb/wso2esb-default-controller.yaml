@@ -11,25 +11,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: wso2esb-default
+  namespace: develop-namespace
   labels:
-    name: wso2esb-default
+    app: wso2esb-default
 spec:
   replicas: 1
   selector:
-    name: wso2esb-default
+    matchLabels:
+      app: wso2esb-default
   template:
     metadata:
       labels:
-        name: wso2esb-default
+        app: wso2esb-default
     spec:
       containers:
       -
         name: wso2esb-default
-        image: wso2esb:4.9.0
+        image: acrwso2prod.azurecr.io/wso2esb:5.0.0
         env:
         -
           name: KUBERNETES_MASTER_SKIP_SSL_VERIFICATION

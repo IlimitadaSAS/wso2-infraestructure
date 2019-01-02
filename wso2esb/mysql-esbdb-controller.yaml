@@ -11,20 +11,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: mysql-esb-db
+  namespace: develop-namespace
   labels:
-    name: mysql-esb-db
+    app: mysql-esb-db
 spec:
   replicas: 1
   selector:
-    name: mysql-esb-db
+    matchLabels:
+      app: mysql-esb-db
   template:
     metadata:
       labels:
-        name: mysql-esb-db
+        app: mysql-esb-db
     spec:
       containers:
       - name: mysql-esb-db
