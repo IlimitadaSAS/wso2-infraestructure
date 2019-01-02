@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="helloWord" groupId="com.example.test.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/helloWord.xml</file>
+    </artifact>
+    <artifact name="secuencia" groupId="com.example.test.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/secuencia.xml</file>
+    </artifact>
+</artifacts>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="secuencia" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+  <payloadFactory media-type="json">
+    <format>
+      {
+      	{"mensaje":"Hello Word Chanegs"},
+      	{"mensaje":"Hello Word Chanegs"}
+      }
+    </format>
+    <args/>
+  </payloadFactory>
+  <respond/>
+</sequence>
