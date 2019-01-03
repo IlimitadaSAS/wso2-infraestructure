@@ -104,7 +104,7 @@
               <trustStorePath>${basedir}/src/main/resources/security/wso2carbon.jks</trustStorePath>
               <trustStorePassword>wso2carbon</trustStorePassword>
               <trustStoreType>JKS</trustStoreType>
-              <serverUrl>https://wso2ilimitada-dev.centralus.cloudapp.azure.com:32094</serverUrl>
+              <serverUrl>https://wso2ilimitada.centralus.cloudapp.azure.com:32094</serverUrl>
               <userName>devops</userName>
               <password>devops</password>
               <operation>deploy</operation>
