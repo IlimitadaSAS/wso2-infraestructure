@@ -17,7 +17,7 @@ metadata:
   labels:
     name: mysql-userdb
   name: mysql-userdb
-  namespace: develop-namespace
+  namespace: prod-namespace
 spec:
   ports:
     # ports that this service should serve on

@@ -15,7 +15,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wso2esb-manager
-  namespace: develop-namespace
+  namespace: prod-namespace
   labels:
     name: wso2esb-manager
 spec:

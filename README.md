@@ -102,7 +102,18 @@ The cloned local copy of WSO2 Dockerfiles will be referred as `DOCKERFILES_HOME`
 
 ## Despliegue en kubernetes
 
+**Requerientos**
+- [Azure Cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+- [Kubernetes Cli para azure](https://docs.microsoft.com/es-es/cli/azure/aks?view=azure-cli-latest#az-aks-install-cli)
+
 Para el despliegue de kubernetes se implementa la estrategia creada por WSO2 como parte de su estrategia, para esto se usa los archivos de comandos encontrados en el directorio **wso2esb** y que se apoya por el directorio **common** donde se encuentran los archivos de configuración y scprit de despliegue del cluster.
+
+Antes de iniciar el proceso de despliegue se debe hacer login en azure hacer set en la infraestrctura de kuberenetes creada
+
+```sh
+az login
+az aks get-credentials --resource-group azure-wso2prod --name wso2prod
+```
 
 * Kubernetes Artifacts for WSO2 Enterprise Service Bus *
 These Kubernetes Artifacts provide the resources and instructions to deploy WSO2 Enterprise Service Bus on Kubernetes.

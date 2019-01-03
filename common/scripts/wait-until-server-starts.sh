@@ -24,7 +24,7 @@ source "${self_path}/base.sh"
 IFS=$'\n'
 kube_nodes=($(getKubeNodes))
 #host=$(getKubeNodeIP "${kube_nodes[0]}")
-host=wso2ilimitada-dev.centralus.cloudapp.azure.com
+host=wso2ilimitada.centralus.cloudapp.azure.com
 product=${PWD##*/}
 profile=$1
 #port=$2

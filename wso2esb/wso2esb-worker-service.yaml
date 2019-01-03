@@ -17,7 +17,7 @@ metadata:
   labels: 
     name: wso2esb-worker
   name: wso2esb-worker
-  namespace: develop-namespace
+  namespace: prod-namespace
 spec: 
   type: NodePort
   ports:

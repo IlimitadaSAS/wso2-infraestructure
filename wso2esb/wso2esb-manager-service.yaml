@@ -17,7 +17,7 @@ metadata:
   labels: 
     name: wso2esb-manager
   name: wso2esb-manager
-  namespace: develop-namespace
+  namespace: prod-namespace
 spec: 
   type: LoadBalancer
   ports:

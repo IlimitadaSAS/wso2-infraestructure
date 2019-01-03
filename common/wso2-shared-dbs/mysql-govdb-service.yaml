@@ -17,7 +17,7 @@ metadata:
   labels:
     name: mysql-govdb
   name: mysql-govdb
-  namespace: develop-namespace
+  namespace: prod-namespace
 spec:
   ports:
     # ports that this service should serve on

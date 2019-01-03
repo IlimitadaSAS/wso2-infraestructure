@@ -15,7 +15,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wso2esb-default
-  namespace: develop-namespace
+  namespace: prod-namespace
   labels:
     app: wso2esb-default
 spec:

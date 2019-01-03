@@ -21,7 +21,7 @@
 prgdir=$(dirname "$0")
 script_path=$(cd "$prgdir"; pwd)
 
-kubectl get deployment --all-namespaces=true | grep mysql-govdb > /dev/null 2>&1
+kubectl get deployments --namespace prod-namespace | grep mysql-govdb > /dev/null 2>&1
 
 if [ $? -ne 0 ]; then
   echo "Deploying MySQL Governance DB Service..."
@@ -33,7 +33,7 @@ else
   echo "MySQL Governance DB is already deployed."
 fi
 
-kubectl get deployment --all-namespaces=true | grep mysql-userdb > /dev/null 2>&1
+kubectl get deployments --namespace prod-namespace | grep mysql-userdb > /dev/null 2>&1
 
 if [ $? -ne 0 ]; then
   echo "Deploying MySQL User DB Service..."
