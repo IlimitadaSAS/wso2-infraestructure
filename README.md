@@ -9,6 +9,8 @@ El objetivo de este proyecto es realizar la implementación del la infraestructu
 - Despliegue en kubernetes
 - Proyecto de despliegue continuo en WSO2ESB
 
+----------------------------------------------------------------------------------------------
+
 ## Infraestructura en código – Terraform
 
 **Requerimientos**
@@ -45,6 +47,8 @@ En el archivo out.plan se encuentran las instrucciones que terraform aplicara pa
 terraform apply out.plan
 ```
 Al final se debe mostrar el proceso ejecutado, las caracteristicas de infraestuctura creadas y los datos de la misma.
+
+----------------------------------------------------------------------------------------------
 
 **Creación de imagen por medio de Doker**
 
@@ -99,6 +103,18 @@ The cloned local copy of WSO2 Dockerfiles will be referred as `DOCKERFILES_HOME`
 * [Building docker images] (https://docs.wso2.com/display/DF120/Building+Docker+Images)
 
 * [Running docker images] (https://docs.wso2.com/display/DF120/Running+WSO2+Docker+Images)
+
+Paga agregar la imagen a el contenedor de registro de Azure se deben seguir los siguientes comandos.
+
+```sh
+docker login --username <USERNAME> --password <PASSWORD> acrwso2prod.azurecr.io
+
+docker tag wso2esb:5.0.0 acrwso2prod.azurecr.io/wso2esb:5.0.0
+
+docker push acrwso2prod.azurecr.io/wso2esb:5.0.0
+```
+
+-----------------------------------------------------------------------------------------------
 
 ## Despliegue en kubernetes
 
@@ -199,3 +215,4 @@ For more detailed instructions on deploying WSO2 Enterprise Service Bus on Kuber
 * Documentation
 * [WSO2 Kubernetes Artifacts Wiki](https://docs.wso2.com/display/KA100/WSO2+Kubernetes+Artifacts)
 
+-----------------------------------------------------------------------------------------------
